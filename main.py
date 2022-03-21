@@ -116,7 +116,7 @@ def alert(message:str):
     # send message
     try:
         webhook = Webhook.partial(id,token, adapter=RequestsWebhookAdapter())
-        webhook.send(message)
+        webhook.send(message,username='세종대 공지 알림')
     except Exception as e:
         print(e)
 

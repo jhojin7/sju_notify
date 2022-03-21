@@ -14,6 +14,13 @@
 config.json에 추가한다.  
 `.../webhooks/<your webhook ID here>/<your webhook token here>`
 
+> 로컬에서 crontab으로 돌릴 경우에는 파이썬 실행파일의 권한을 추가해줘야함. `chmod +x python_file.py`
+
+
+## Dependencies
+- beautifusoup4
+- discord.py
+
 ## `data.json` structure
 ```json
 {
@@ -24,8 +31,7 @@ config.json에 추가한다.
             "writer":"작성자",
             "date":"0000.00.00",
             "link":"https://board.sejong.ac.kr/..."
-        },
-        //...
+        }
     ],
     "haksa":[
         {
@@ -34,8 +40,7 @@ config.json에 추가한다.
             "writer":"작성자",
             "date":"0000.00.00",
             "link":"https://board.sejong.ac.kr/..."
-        },
-        //...
+        }
     ],
     "chuiup":[
         {
@@ -44,8 +49,7 @@ config.json에 추가한다.
             "writer":"작성자",
             "date":"0000.00.00",
             "link":"https://board.sejong.ac.kr/..."
-        }, 
-        //...
+        }
     ],
     "janghak":[
         {
@@ -54,8 +58,7 @@ config.json에 추가한다.
             "writer":"작성자",
             "date":"0000.00.00",
             "link":"https://board.sejong.ac.kr/..."
-        },
-        //...
+        }
     ],
     "boards2":{
         "main": 333,
@@ -80,6 +83,7 @@ config.json에 추가한다.
 
 
 ## TODO
+- [ ] move DIR,LOG to config.json
 - [ ] divide files
 - [ ] channel webhook말고 bot으로 푸시 메시지 구현?
     (봇이 모든 채널에 메시지를 푸시 해야함...)
