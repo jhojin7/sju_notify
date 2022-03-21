@@ -1,6 +1,7 @@
-############
+######my gitignore######
 data.json
 config.json
+log.txt
 ############
 
 # Byte-compiled / optimized / DLL files
