@@ -129,6 +129,7 @@ if __name__ == '__main__':
     data = json_read(DIR+'/data.json')
 
     ### check for update
+    all_new_notices = []
     for name in boardNames:
         new_notices = check_for_update(name)
         print(new_notices)
@@ -136,15 +137,16 @@ if __name__ == '__main__':
         ### sort by pkid (oldest on top)
         data[name].sort(key=(lambda x: x['pkid']))
 
-    ### alert new_notices
-    for notice in new_notices:
-        alert(make_message(notice))
+        ### alert new_notices
+        for notice in new_notices:
+            alert(make_message(notice))
+        all_new_notices += new_notices
 
     log_f = open(DIR+'/log.txt','a')
-    LOG += f"--- Updated {len(new_notices)} notices ---\n"
+    LOG += f"--- Updated {len(all_new_notices)} notices ---\n"
     log_f_lines = log_f.write(LOG)
     log_f.close()
     print(LOG)
-
+    
     # alert(f"TEST: {datetime.datetime.today()}\nupdated {len(new_notices)} notices\n")
     json_write(DIR+'/data.json',data)
