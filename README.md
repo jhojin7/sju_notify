@@ -4,6 +4,8 @@
 
 > 매 정시마다 전체공지, 학사공지, 취업공지, 장학공지 게시판을 확인하여 새로운 공지가 있으면 알려줍니다. 
 
+![image](https://user-images.githubusercontent.com/23309485/159839411-f9691af1-d661-4fa3-979e-9715485b33ca.png)
+
 ## Setup
 1. (디스코드에서) 서버설정 -> 연동 -> 웹후크 -> '새 웹후크' 클릭
 2. 이름, 채널을 적절히 설정하기
@@ -76,6 +78,13 @@ config.json에 추가한다.
     "webhookToken":"<your webhook token here>"
 }
 ```
+
+## Sample crontab
+```
+0 * * * * /usr/bin/python /path/to/project/main.py >> LOG 2>&1
+30 * * * * /usr/bin/python /path/to/project/main.py >> LOG 2>&1
+```
+
 ## Resources
 - discord.py: https://github.com/Rapptz/discord.py
     - Quickstart: https://discordpy.readthedocs.io/en/stable/quickstart.html
