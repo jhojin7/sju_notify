@@ -83,10 +83,11 @@ config.json에 추가한다.
 
 
 ## TODO
+- [ ] 과에서 나오는 공지(학부, 대학원, 연구실)도 추가
 - [ ] move DIR,LOG to config.json
 - [ ] divide files
 - [ ] channel webhook말고 bot으로 푸시 메시지 구현?
     (봇이 모든 채널에 메시지를 푸시 해야함...)
-- [ ] cron with relative path
+- [x] cron with relative path
 - [x] 이전에 쓰던 private repo는 archive처리하기
 - [x] 변수명 통일, 정리하기
