@@ -81,8 +81,11 @@ config.json에 추가한다.
 
 ## Sample crontab
 ```
-0 * * * * /usr/bin/python /path/to/project/main.py >> LOG 2>&1
-30 * * * * /usr/bin/python /path/to/project/main.py >> LOG 2>&1
+LOG_DIR=/home/pi/LOGS
+CODE=/home/pi/CODE
+EXEC_PY=/usr/bin/python
+
+0,30 * * * * $EXEC_PY $CODE/sju_notify/main.py >> $LOG_DIR/sju_notify.log 2>&1
 ```
 
 ## Resources
