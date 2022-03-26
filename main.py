@@ -4,6 +4,7 @@ import requests
 import datetime
 from bs4 import BeautifulSoup
 from discord import Webhook, RequestsWebhookAdapter
+# from boards import *
 
 # ONLY USED WHEN STARTING FROM SCRATCH
 def init_json():
@@ -120,6 +121,13 @@ def alert(message:str):
     except Exception as e:
         print(e)
 
+def log_append(DIR, LOG, all_new_notices):
+    log_f = open(DIR+'/log.txt','a')
+    LOG += f"--- Updated {len(all_new_notices)} notices ---\n"
+    log_f_lines = log_f.write(LOG)
+    log_f.close()
+    print(LOG)
+
 # MAIN
 if __name__ == '__main__':
     DIR = '/home/pi/CODE/sju_notify'
@@ -142,11 +150,7 @@ if __name__ == '__main__':
             alert(make_message(notice))
         all_new_notices += new_notices
 
-    log_f = open(DIR+'/log.txt','a')
-    LOG += f"--- Updated {len(all_new_notices)} notices ---\n"
-    log_f_lines = log_f.write(LOG)
-    log_f.close()
-    print(LOG)
+    log_append(DIR, LOG, all_new_notices)
     
     # alert(f"TEST: {datetime.datetime.today()}\nupdated {len(new_notices)} notices\n")
     json_write(DIR+'/data.json',data)
