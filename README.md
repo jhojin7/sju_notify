@@ -103,3 +103,5 @@ EXEC_PY=/usr/bin/python
 - [x] cron with relative path
 - [x] 이전에 쓰던 private repo는 archive처리하기
 - [x] 변수명 통일, 정리하기
+- [ ] gather url forms 
+- [ ] classify JSON, Scraper, Disc
