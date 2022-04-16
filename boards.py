@@ -30,7 +30,7 @@ def make_HOME_view_link(boardId, pkid:str, wslID:str='xxx'):
     ret = HOME_SEJONG_VIEW %(boardId,pkid,wslID)
     return ret
 
-def make_json(boardId, notice:str,wslID='cedpt')->dict:
+def make_item(boardId, notice:str,wslID='cedpt')->dict:
     subject = notice.find('td','subject')
     subject_txt = subject.text.strip()
     writer = notice.find('td','writer').text.strip()
@@ -38,7 +38,7 @@ def make_json(boardId, notice:str,wslID='cedpt')->dict:
     index = notice.find('td','index').text.strip()
     a_href = subject.find('a').get('href')
     pkid = findall('pkid=([0-9]*)',a_href)[0]
-    new_obj = {
+    item = {
         "index":index,
         "subject":subject_txt,
         "writer":writer,
@@ -46,6 +46,4 @@ def make_json(boardId, notice:str,wslID='cedpt')->dict:
         "pkid":pkid,
         "link":make_SEJONG_view_link(boardId,pkid,wslID)
     }
-    return new_obj
-
-
+    return item
