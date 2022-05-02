@@ -8,12 +8,39 @@ HOME_SEJONG_VIEW = "https://home.sejong.ac.kr/bbs/bbsview.do?bbsid=%s&pkid=%s&ws
 BOARD_SEJONG = "https://board.sejong.ac.kr/boardlist.do?bbsConfigFK=%s"
 BOARD_SEJONG_VIEW = "https://board.sejong.ac.kr/boardview.do?bbsConfigFK=%s&pkid=%s"
 
+def tr_to_dict(boardId, notice)->dict:
+    """ Use soup.find to turn <tr> to dict """
+    subject = notice.find('td','subject')
+    subject_txt = subject.text.strip()
+    writer = notice.find('td','writer').text.strip()
+    date = notice.find('td','date').text.strip()
+    index = notice.find('td','index').text.strip()
+    link = subject.find('a').get('href')
+    pkid = link[-6:]
+    real_link = f"https://board.sejong.ac.kr/boardview.do?bbsConfigFK={boardId}&pkid={pkid}"
+    notice = {
+        "boardId":boardId,
+        "index":index,
+        "subject":subject_txt,
+        "writer":writer,
+        "date":date,
+        "pkid":pkid,
+        "link":real_link
+    }
+    return notice
+
 def fetch_board(boardId:int):
+    fetched = []
+    # board to fetch
     url = f"https://board.sejong.ac.kr/boardlist.do?bbsConfigFK={boardId}"
-    # print(url)
     response = requests.get(url)
     soup =BeautifulSoup(response.text,'html.parser')
-    return soup.find('table').find_all('tr')[1:] #remove head
+    # get all <tr> in a list
+    rows = soup.find('table').find_all('tr')[1:]
+    for row in rows:
+        # process text in <tr> and append to fetched
+        fetched.append(tr_to_dict(boardId, row))
+    return fetched
 
 def fetch_HOME_board(URL,boardId:int,wslID:str='xxx'):
     param = (str(boardId),wslID)
@@ -80,34 +107,6 @@ def check_for_update(boardName:str)-> list:
         LOG += f">>> {boardName}: yes diff\n{updated}\n"
     return updated
 
-def process(boardName:str, notices:list)->list:
-    """ DUPLICATE. clean up later. """
-    global DIR
-    data = etc.json_read(DIR+'/data.json')
-    boardId = data['boards2'][boardName]
-    # notices = fetch_board(boardId)
-
-    tmp = []
-    for notice in notices:
-        subject = notice.find('td','subject')
-        subject_txt = subject.text.strip()
-        writer = notice.find('td','writer').text.strip()
-        date = notice.find('td','date').text.strip()
-        index = notice.find('td','index').text.strip()
-        # print(index, subject_txt, writer, date)
-        # link preprocessing
-        link = subject.find('a').get('href')
-        pkid = link[-6:]
-        real_link = f"https://board.sejong.ac.kr/boardview.do?bbsConfigFK={boardId}&pkid={pkid}"
-        notice = {
-            "index":index,
-            "subject":subject_txt,
-            "writer":writer,
-            "date":date,
-            "pkid":pkid,
-            "link":real_link
-        }
-        tmp.append(notice)
-        # data[boardName].append(notice)    
-    return tmp
-    # json_write('data.json',data)
+if __name__=='__main__':
+    data = fetch_board(335)
+    print(data)
