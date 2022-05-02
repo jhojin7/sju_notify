@@ -14,7 +14,7 @@ def fetch_HOME_board(URL,boardId:int,wslID:str='xxx'):
     rows = soup.find('table').find_all('tr')[1:] #remove head
     ret = []
     for row in rows:
-        if row.find("등록된 게시물이 없습니다") != None:
+        if row.find("등록된 게시물이 없습니다") == None:
             return "Finished"
         # fetch with HOME_SEJONG , boardid, and make_json on every item seen 
         ret.append(make_json(boardId,row))
