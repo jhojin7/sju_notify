@@ -2,6 +2,7 @@
 data.json
 config.json
 log.txt
+tests/
 ############
 
 # Byte-compiled / optimized / DLL files
