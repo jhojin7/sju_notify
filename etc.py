@@ -1,10 +1,10 @@
 import json
 
 def json_read(file:str)->dict:
-    f = open(file,'r')
-    data = json.loads(f.read())
-    f.close()
-    return data
+    with open(file,'r',encoding="utf-8") as f:
+        data = json.loads(f.read())
+        f.close()
+        return data
 
 def json_write(file:str,data:dict):
     f = open(file,'w')

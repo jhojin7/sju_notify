@@ -1,7 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
 from re import findall
-import etc
+import os, etc
+
+boardIds = {
+    333:"main",
+    335:"haksa",
+    337:"chuiup",
+    338:"janghak"
+}
 
 HOME_SEJONG = "https://home.sejong.ac.kr/bbs/bbslist.do?bbsid=%s&wslID=%s"
 HOME_SEJONG_VIEW = "https://home.sejong.ac.kr/bbs/bbsview.do?bbsid=%s&pkid=%s&wslID=%s"
@@ -39,8 +46,25 @@ def fetch_board(boardId:int):
     rows = soup.find('table').find_all('tr')[1:]
     for row in rows:
         # process text in <tr> and append to fetched
-        fetched.append(tr_to_dict(boardId, row))
+        rowdata = tr_to_dict(boardId, row)
+        # filter out if duplicates exist in db
+        if not is_duplicate(boardId, rowdata):
+            fetched.append(rowdata)
     return fetched
+
+def is_duplicate(boardId, rowdata):
+    testdata_path = os.path.join(os.path.abspath(""),'tests','data.json')
+    board = etc.json_read(testdata_path)[boardIds[boardId]]
+    for x in board:
+        # if is duplicate under this condition, return true
+        if x['subject']==rowdata['subject']\
+        and x['writer']==rowdata['writer']\
+        and x['date']==rowdata['date']\
+        and x['pkid']==rowdata['pkid']:
+            # print(x['index'], x['pkid'], x['subject'][:20])
+            return True
+    # if no match, return false
+    return False
 
 def fetch_HOME_board(URL,boardId:int,wslID:str='xxx'):
     param = (str(boardId),wslID)
@@ -108,5 +132,5 @@ def check_for_update(boardName:str)-> list:
     return updated
 
 if __name__=='__main__':
-    data = fetch_board(335)
-    print(data)
+    data = fetch_board(333)
+    for d in data: print(d)
