@@ -1,12 +1,6 @@
 from datetime import datetime
-import os
 import boards, notify, etc
 
-testdata_path = os.path.join(os.path.abspath(""),'tests','data.json')
-data_path = os.path.join(os.path.abspath(""),'data.json')
-DATA = data_path
-LOG = f"log: {datetime.today()}\n"
-# boardNames = ['main','haksa','chuiup','janghak']
 boardIds = {
     333:"main",
     335:"haksa",
@@ -16,6 +10,7 @@ boardIds = {
 
 # MAIN
 if __name__ == '__main__':
+    print(datetime.today())
     ### check for update
     for boardId in boardIds.keys():
         print("==", boardId, boardIds[boardId], "==")
@@ -26,13 +21,8 @@ if __name__ == '__main__':
         for notice in new:
             notify.alert(notify.make_message(notice))
         # append to db
-        db = etc.json_read(DATA)
+        db = etc.json_read(etc.DATA)
         db[boardIds[boardId]] += new
-        is_success = etc.json_write(DATA, db)
+        is_success = etc.json_write(etc.DATA, db)
         if not is_success:
             print(">> !!!!!!!!! WRITE FAILED !!!!!!!!!")
-
-    # etc.log_append(DIR, LOG, all_new_notices)
-    
-    # # alert(f"TEST: {datetime.datetime.today()}\nupdated {len(new_notices)} notices\n")
-    # etc.json_write(DIR+'/data.json',data)
