@@ -3,6 +3,9 @@ from bs4 import BeautifulSoup
 from re import findall
 import os, etc
 
+testdata_path = os.path.join(os.path.abspath(""),'tests','data.json')
+data_path = os.path.join(os.path.abspath(""),'data.json')
+DATA = data_path
 boardIds = {
     333:"main",
     335:"haksa",
@@ -42,7 +45,7 @@ def fetch_board(boardId:int):
     url = f"https://board.sejong.ac.kr/boardlist.do?bbsConfigFK={boardId}"
     response = requests.get(url)
     soup =BeautifulSoup(response.text,'html.parser')
-    # get all <tr> in a list
+    # get all <tr> on first page only
     rows = soup.find('table').find_all('tr')[1:]
     for row in rows:
         # process text in <tr> and append to fetched
@@ -53,8 +56,7 @@ def fetch_board(boardId:int):
     return fetched
 
 def is_duplicate(boardId, rowdata):
-    testdata_path = os.path.join(os.path.abspath(""),'tests','data.json')
-    board = etc.json_read(testdata_path)[boardIds[boardId]]
+    board = etc.json_read(DATA)[boardIds[boardId]]
     for x in board:
         # if is duplicate under this condition, return true
         if x['subject']==rowdata['subject']\

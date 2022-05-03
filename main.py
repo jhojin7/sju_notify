@@ -3,6 +3,8 @@ import os
 import boards, notify, etc
 
 testdata_path = os.path.join(os.path.abspath(""),'tests','data.json')
+data_path = os.path.join(os.path.abspath(""),'data.json')
+DATA = data_path
 LOG = f"log: {datetime.today()}\n"
 # boardNames = ['main','haksa','chuiup','janghak']
 boardIds = {
@@ -24,9 +26,9 @@ if __name__ == '__main__':
         for notice in new:
             notify.alert(notify.make_message(notice))
         # append to db
-        db = etc.json_read(testdata_path)
+        db = etc.json_read(DATA)
         db[boardIds[boardId]] += new
-        is_success = etc.json_write(testdata_path, db)
+        is_success = etc.json_write(DATA, db)
         if not is_success:
             print(">> !!!!!!!!! WRITE FAILED !!!!!!!!!")
 
