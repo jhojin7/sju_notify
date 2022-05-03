@@ -1,4 +1,14 @@
 import json
+import os
+
+repo = os.path.abspath("/home/pi/CODE/sju_notify")
+testdata_path = os.path.join(repo,'tests','data.json')
+data_path = os.path.join(repo,'data.json')
+testconfig_path = os.path.join(repo,'tests','config.json')
+config_path = os.path.join(repo,'config.json')
+
+DATA = data_path
+CONFIG = config_path
 
 def json_read(file:str)->dict:
     """ Read json data to file. 

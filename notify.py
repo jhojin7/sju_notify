@@ -1,9 +1,5 @@
 from discord import Webhook, RequestsWebhookAdapter
-import os
 import etc
-testconfig_path = os.path.join(os.path.abspath(""),'tests','config.json')
-config_path = os.path.join(os.path.abspath(""),'config.json')
-CONFIG = config_path
 
 boardKRnames= {
     333:"공지",
@@ -26,7 +22,7 @@ f"""[{boardKRnames[boardId]}]// 새로운 공지가 도착했어요! ({writer}, 
 
 def alert(message:str):
     # WEBHOOK
-    config = etc.json_read(CONFIG)
+    config = etc.json_read(etc.CONFIG)
     id = config['webhookId']
     token = config['webhookToken']
     # id = config['webhookId_local']

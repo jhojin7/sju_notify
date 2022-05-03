@@ -1,11 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from re import findall
-import os, etc
+import etc
 
-testdata_path = os.path.join(os.path.abspath(""),'tests','data.json')
-data_path = os.path.join(os.path.abspath(""),'data.json')
-DATA = data_path
 boardIds = {
     333:"main",
     335:"haksa",
@@ -56,7 +53,7 @@ def fetch_board(boardId:int):
     return fetched
 
 def is_duplicate(boardId, rowdata):
-    board = etc.json_read(DATA)[boardIds[boardId]]
+    board = etc.json_read(etc.DATA)[boardIds[boardId]]
     for x in board:
         # if is duplicate under this condition, return true
         if x['subject']==rowdata['subject']\
@@ -110,29 +107,3 @@ def make_item(boardId, notice:str,wslID='cedpt')->dict:
         "link":make_SEJONG_view_link(boardId,pkid,wslID)
     }
     return item
-
-def check_for_update(boardName:str)-> list:
-    """ DUPLICATE. clean up later. """
-    global DIR, LOG
-    old_data = etc.json_read(DIR+'/data.json')
-    boards = old_data['boards2']
-
-    old = old_data[boardName]
-    new = process(boardName,
-        fetch_board(boards[boardName]))
-
-    # scan for different post in new
-    updated = []
-    # search for only 5, for time complexity
-    for i in range(5):
-        if new[i] not in old:
-            updated.append(new[i])
-    if updated == []:
-        LOG += f">>> {boardName}: scan complete. no diff\n"
-    else:
-        LOG += f">>> {boardName}: yes diff\n{updated}\n"
-    return updated
-
-if __name__=='__main__':
-    data = fetch_board(333)
-    for d in data: print(d)
